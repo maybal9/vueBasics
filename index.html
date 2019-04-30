@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8"/>
+<head>
+<title>Product App</title>
+<link rel="stylesheet" type="text/css" href="product_style.css">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div class="nav-bar"></div>
+
+    <div id="app">
+        <div class = "product">
+            <div class = "product-image">
+                <img v-bind:src="image"/>
+                
+            </div>
+            <div class="product-info">
+                <h1>{{ title }}</h1>
+                <p>{{ description }}</p>
+                <p v-if="inStock">In Stock </p>
+                <p v-else-if="inStock <= 10 && inStock">Almost Sold Out!  </p>
+                <p v-else :class="{outOfStock: !inStock}"> Out of Stock </p>
+                <p style="color:red">{{ sale }}</p>
+                <ul>
+                    <li v-for="detail in details"> {{ detail }}</li>
+                </ul>
+                <div v-for="(variant,index) in variants" 
+                    :keys="variant.variantId"
+                    class="color-box"
+                    :style="{ backgroundColor: variant.variantColor }"
+                    @mouseover="updateProduct(index)">
+                </div>
+                <!---
+                <div id="sizes"> Available in sizes: 
+                        <ul>
+                            <li v-for="size in sizes"> {{ size }}</li>
+                        </ul>
+                </div> -->
+                <button v-on:click="addToCart" 
+                :disabled="!inStock"
+                :class="{disabledButton: !inStock}">Add to cart</button>
+                <button v-on:click="removeFromCart">Remove from cart</button>
+                <div class="cart">
+                    <p>Cart({{ cart }})</p>
+                </div>
+
+                <!-- <a v-bind:href="link">link to socks store</a> -->   
+            </div>    
+        </div>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
